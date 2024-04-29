@@ -1,0 +1,161 @@
+<div class="container mt-5">
+    <h1 class="mb-3 alert alert-dark text-center">
+      {{ productId == 0 ? "Add New Product" : "Edit Product" }}
+    </h1>
+
+  
+    <form (submit)="productHandler($event)" [formGroup]="productForm" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Product Name</label>
+        <input
+          type="text"
+          name="name"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          placeholder="Enter Product Name"
+          formControlName="name"
+        />
+        <ng-container *ngIf="getProductName.touched">
+          <div
+            *ngIf="getProductName.hasError('required')"
+            id="emailHelp"
+            class="form-text text-danger"
+          >
+            Product Name is Required
+          </div>
+          <div
+            *ngIf="getProductName.hasError('minlength')"
+            id="emailHelp"
+            class="form-text text-danger"
+          >
+            Product Name length must be > 3
+          </div>
+        </ng-container>
+      </div>
+      
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Product Description</label>
+        <input
+          type="text"
+          name="description"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          placeholder="Enter Product Description"
+          formControlName="description"
+        />
+        <ng-container *ngIf="getProductDescription.touched">
+          <div
+            *ngIf="getProductDescription.hasError('required')"
+            id="emailHelp"
+            class="form-text text-danger"
+          >
+            Product Name is Required
+          </div>
+        </ng-container>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword5" class="form-label">Price</label>
+        <input
+          name="price"
+          type="number"
+          class="form-control"
+          id="exampleInputPassword5"
+          placeholder="Enter Price"
+          formControlName="price"
+        />
+        <ng-container *ngIf="getPrice.touched">
+          <div
+            *ngIf="getPrice.hasError('required')"
+            id="emailHelp"
+            class="form-text text-danger"
+          >
+            Price is Required
+          </div>
+        </ng-container>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword6" class="form-label">Quantity</label>
+        <input
+          name="quantityAvailable"
+          type="number"
+          class="form-control"
+          id="exampleInputPassword6"
+          placeholder="Enter Quantity"
+          formControlName="quantityAvailable"
+        />
+        <ng-container *ngIf="getQuantity.touched">
+          <div
+            *ngIf="getQuantity.hasError('required')"
+            id="emailHelp"
+            class="form-text text-danger"
+          >
+            Quantity is Required
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- <div class="mb-3">
+        <label for="exampleInputPassword6" class="form-label">Category</label>
+        <input
+          name="catId"
+          type="number"
+          class="form-control"
+          id="exampleInputPassword6"
+          placeholder="Enter Quantity"
+          formControlName="catId"
+        />
+        <ng-container *ngIf="getCatId.touched">
+          <div
+            *ngIf="getCatId.hasError('required')"
+            id="emailHelp"
+            class="form-text text-danger"
+          >
+            Category is Required
+          </div>
+        </ng-container>
+      </div> -->
+
+      <div class="mb-3">
+        <select class="form-control" name="CatId" id="exampleInputPassword7" placeholder="Enter Category" formControlName="CatId">
+          <option *ngFor="let cat of categories" value="{{cat.id}}">{{cat.name}}</option>
+        </select>
+      </div>
+
+      
+  <div>
+    <label for="img">Upload Image:</label>
+    <input type="file" id="img" formControlName="img" (change)="onFileChange($event)"/>
+    <div *ngIf="getimg.invalid && (getimg.dirty || getimg.touched)">
+      <div *ngIf="getimg.hasError('required')">Image is required</div>
+    </div>
+  </div> 
+
+  <!-- <div class="row" style="margin-bottom:15px;">
+    <div class="col-md-3">
+      <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+      <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+    </div>
+    <div class="col-md-4">
+      <span class="upload" *ngIf="progress > 0">
+        {{progress}}%
+      </span>
+      <span class="upload" *ngIf="message">
+        {{message}}
+      </span>
+    </div>
+  </div> -->
+
+      <!-- <p>{{ productForm.value | json }}</p> -->
+  
+      <button type="submit" class="btn btn-outline-primary">
+        {{ productId == 0 ? "Add New Product" : "Edit Product" }}
+      </button>
+      
+      <button (click)="backToProducts()" class="btn btn-outline-success ms-2">
+        Back To Products
+      </button>
+    </form>
+  </div>
+  

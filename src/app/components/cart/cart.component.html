@@ -1,0 +1,26 @@
+<div class="bg-main-light p-4 my-4">
+    <h3>Shop Cart</h3>
+    <h6 class="text-success">Total Price:  {{cartDetails?.totalPrice}}</h6>
+    
+    <button (click)="emptyCart()" class="btn">Empty Cart</button>
+
+    <div *ngFor="let product of cartDetails?.cartItems" class="row align-items-center border-bottom py-3">
+    <div class="col-mid-1">
+        <!-- <img class="w-100" [src]="product?.product.img" alt=""> -->
+    </div>
+    <div class="col-md-11 d-flex justify-content-between">
+        <div>
+            <h6>{{product.product.name}}</h6>
+            <h6 class="text-success">Price: {{product.price}}</h6>
+            <button (click)="removeItem(product.product.id)" class="btn">Delete </button>
+        </div>
+        <div>
+            <button (click)="updateCart(product.product.id,product.quantity + 1)"  class="btn">+</button>
+            <span class="mx-2">{{product.quantity}}</span>
+            <button (click)="updateCart(product.product.id,product.quantity - 1)" [disabled]="product.quantity == 0" class="btn">-</button>
+        </div>
+    </div>
+
+</div>
+</div>
+
