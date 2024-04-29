@@ -29,7 +29,7 @@ export class LoginComponent {
           
           localStorage.setItem('userToken',value.token);
           this._AuthService.decodeUserData();
-          this._Router.navigate(['/products']);
+          this._Router.navigate(['/userProducts']);
         },
         error:(error)=>{
           console.log(error);

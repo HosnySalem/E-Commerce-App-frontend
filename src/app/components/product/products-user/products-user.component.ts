@@ -1,5 +1,7 @@
 import { CartService } from './../../../services/cart.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -9,8 +11,20 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductsUserComponent implements OnInit {
  products: any;
-constructor(public _ProductService: ProductService,private _CartService:CartService) {}
+ isLogin:any;
+constructor(public _ProductService: ProductService,private _CartService:CartService,private _AuthService:AuthService,private _Router:Router) {}
 ngOnInit(): void {
+  this._AuthService.userData.subscribe({
+    next:()=> {
+    if(this._AuthService.userData.getValue() !== null){
+      this.isLogin = true;
+    }
+    else{
+      this.isLogin = false;
+    }
+    },
+
+  })
   this._ProductService.getAllProducts().subscribe({
     next: (data) => {
       console.log(data);
@@ -23,14 +37,17 @@ ngOnInit(): void {
 }
 
 addToCart(productId:number,amount:number){
-  this._CartService.addToCart(productId,amount).subscribe({
-    next:(value)=>{
-      console.log(value);
-    },
-    error:(error)=>{
-      console.log(error);
-      
-    }
-  })
+  if(this.isLogin){
+    this._CartService.addToCart(productId,amount).subscribe({
+      next:(value)=>{
+        console.log(value);
+      },
+      error:(error)=>{
+        console.log(error);
+      }
+    })
+  }else{
+    this._Router.navigate(['/login']);
+  }
 }
 }
