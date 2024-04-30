@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProductFormComponent } from './components/product/product-form/product-form.component';
 import { ProductsUserComponent } from './components/product/products-user/products-user.component';
 import { CartComponent } from './components/cart/cart.component';
+import { SearchPipe } from './models/search.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CartComponent } from './components/cart/cart.component';
     SignupComponent,
     ProductFormComponent,
     ProductsUserComponent,
-    CartComponent
+    CartComponent,
+    SearchPipe
   ],
   imports: [
     BrowserModule,

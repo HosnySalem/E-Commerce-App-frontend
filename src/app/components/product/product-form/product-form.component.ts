@@ -1,7 +1,9 @@
-import { HttpClient, HttpErrorResponse, HttpEventType } from '@angular/common/http';
-
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../../services/product.service';
 
@@ -14,78 +16,34 @@ export class ProductFormComponent implements OnInit {
   productId: any;
   product: any;
   categories: any;
-  errors:string = '';
+  errors: string = '';
   selectedFile!: File;
- // productForm!: FormGroup;
- progress!: number;
-  message!: string;
-  @Output() public onUploadFinished = new EventEmitter();
-
+  uploadResponse!: string;
+  base64: any;
 
   productForm = new FormGroup({
-    //id: new FormControl( [null]),
-    name: new FormControl( ['', Validators.required, Validators.minLength(3),]),
-    description: new FormControl( ['', Validators.required]),
-    price: new FormControl( ['', Validators.required]),
-    quantityAvailable: new FormControl( ['', Validators.required]),
-    CatId: new FormControl( ['', Validators.required]),
-    img: new FormControl( [''], Validators.required),
+    name: new FormControl(['', Validators.required, Validators.minLength(3)]),
+    description: new FormControl(['', Validators.required]),
+    price: new FormControl(['', Validators.required]),
+    quantityAvailable: new FormControl(['', Validators.required]),
+    CatId: new FormControl(['', Validators.required]),
+    img: new FormControl([null, Validators.required]),
   });
 
   constructor(
     public activatedRoute: ActivatedRoute,
     public productServices: ProductService,
-    public router: Router,
-    private fb: FormBuilder,
-    private http:HttpClient
+    public router: Router
   ) {}
 
-  uploadFile = (files:any) => {
-    if (files.length === 0) {
-      return;
-    }
-    let fileToUpload = <File>files[0];
-    const formData = new FormData();
-    formData.append('file', fileToUpload, fileToUpload.name);
-    
-    this.http.post('https://localhost:5001/api/upload', formData, {reportProgress: true, observe: 'events'})
-      .subscribe({
-        next: (event) => {
-        if (event.type === HttpEventType.UploadProgress)
-          this.progress = Math.round( event.loaded );
-        else if (event.type === HttpEventType.Response) {
-          this.message = 'Upload success.';
-          this.onUploadFinished.emit(event.body);
-        }
-      },
-      error: (err: HttpErrorResponse) => console.log(err)
-    });
-  }
-
   ngOnInit(): void {
-    
-    //using form data
-    // this.productForm = this.fb.group({
-    //   name: ['', Validators.required,],
-    //   description:['', Validators.required],
-    //   price:['', Validators.required],
-    //   quantityAvailable:['', Validators.required],
-    //   CatId:['', Validators.required],
-    //   img:[''],
-    // });
     this.productServices.getAllCategories().subscribe({
-      next:(value)=>{
-        console.log(value);  
-        this.categories = value;
-      },
-      error:(error)=>{
-        console.log(error);
-      }
-    })
+      next: (value) => (this.categories = value),
+      error: (error) => console.log(error),
+    });
     this.activatedRoute.params.subscribe({
       next: (params) => {
         this.productId = params['id'];
-       // this.getProductId.setValue(null);
         this.getProductName.setValue(null);
         this.getPrice.setValue(null);
         this.getQuantity.setValue(null);
@@ -97,26 +55,19 @@ export class ProductFormComponent implements OnInit {
     if (this.productId != 0) {
       this.productServices.getProductById(this.productId).subscribe({
         next: (data) => {
-         // console.log(data);
-          
           this.product = data;
           var cat = this.product.catId.toString();
-          //this.getProductId.setValue(this.product.id);
           this.getProductName.setValue(this.product.name);
           this.getProductDescription.setValue(this.product.description);
           this.getPrice.setValue(this.product.price);
           this.getQuantity.setValue(this.product.quantityAvailable);
           this.getCatId.setValue(cat);
           console.log(this.productForm.value);
-          
         },
       });
     }
   }
 
-  // get getProductId() {
-  //   return this.productForm.controls['id'];
-  // }
   get getProductName() {
     return this.productForm.controls['name'];
   }
@@ -135,84 +86,81 @@ export class ProductFormComponent implements OnInit {
   get getimg() {
     return this.productForm.controls['img'];
   }
-  productHandler(e: any) {
+  async productHandler(e: any) {
     e.preventDefault();
     if (this.productForm.status == 'VALID') {
       if (this.productId == 0) {
         // add
-
-        //using form data
-        // const formData = new FormData();
-        // formData.append('name', this.productForm.value.name);
-        // formData.append('description', this.productForm.value.description);
-        // formData.append('quantityAvailable', this.productForm.value.quantityAvailable);
-        // formData.append('price', this.productForm.value.price);
-        // formData.append('CatId', this.productForm.value.getCatId);
-        // formData.append('img', this.selectedFile);
-        // this.productServices.saveProduct(formData).subscribe({
-        //   next:(value)=>{
-        //         console.log(value);
-        //         console.log(this.productForm.value);
-        //   },
-        //   error:(error)=>{
-        //     console.log(error);
-            
-        //     console.log(this.productForm.value);
-        //   }
-          
-        // })
-
-        this.productServices.addProduct(this.productForm.value).subscribe({
+        const productData = {
+          name: this.productForm.value.name,
+          description: this.productForm.value.description,
+          price: this.productForm.value.price,
+          quantityAvailable: this.productForm.value.quantityAvailable,
+          CatId: this.productForm.value.CatId,
+          img: this.base64,
+        };
+        this.productServices.addProduct(productData).subscribe({
           next: (value) => {
-           // console.log(value);
-            console.log(this.productForm.value);
-            
+            console.log(value);
             this.router.navigate(['/products']);
           },
-          error: (error) => console.log(error),
+          error: (error) => {
+            console.log(error);
+          },
         });
-       
       } else {
         // edit
-       // console.log(this.product);
-        
-        this.product ={};
-        var p = Object.assign({'id': this.productId}, this.productForm.value);
-        this.productServices
-          .updateProduct(this.productId,p)
-          .subscribe({
-            next: (value) => {
-              console.log(this.productForm.value);
-              
-              console.log(value);
-              
-              this.router.navigate(['/products']);
-            },
-            error:(error)=>{
-              console.log(this.productForm.value);
-              
-              console.log(error);
-            }
-          });
+        // console.log(this.product);
+        const productData = {
+          name: this.productForm.value.name,
+          description: this.productForm.value.description,
+          price: this.productForm.value.price,
+          quantityAvailable: this.productForm.value.quantityAvailable,
+          CatId: this.productForm.value.CatId,
+          img: this.base64 ?? this.product.img,
+        };
+        this.product = {};
+        var p = Object.assign({ id: this.productId }, productData);
+        this.productServices.updateProduct(this.productId, p).subscribe({
+          next: (value) => {
+            console.log(value);
+            this.router.navigate(['/products']);
+          },
+          error: (error) => {
+            console.log(this.productForm.value);
+
+            console.log(error);
+          },
+        });
       }
     } else {
       console.log(this.productForm);
-      
     }
   }
-
-  onFileChange(event:any) {
-    if (event.target.files.length > 0) {
-      var file= event.target.files[0];
-      this.getimg.setValue(file);
-      // this.selectedFile= event.target.files[0];
-      // this.getimg.setValue(this.selectedFile);
+  uploadImage(event: any) {
+    this.selectedFile = event.target.files[0];
+    if (!this.selectedFile) {
+      console.error('No file selected.');
+      return;
     }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      console.log(event.target + 'reem');
+      if (event.target) {
+        this.base64 = event.target.result as string;
+        console.log('omnia' + this.base64);
+      }
+    };
+
+    reader.onerror = (error) => {
+      console.error('Error reading the file:', error);
+    };
+
+    reader.readAsDataURL(this.selectedFile);
   }
 
-  
   backToProducts() {
     this.router.navigate(['/products']);
   }
-
 }

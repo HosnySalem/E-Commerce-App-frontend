@@ -1,7 +1,9 @@
 <div class="bg-dark text-light p-5 text-center">
     <h1>Product Details</h1>
     <div class="container">
-      <p class="lead">Product Id :{{ product?.id }}</p>
+      <!-- <p class="lead">Product Id :{{ product?.id }}</p> -->
+      
+      <img [src]="product?.img" class="w-25" alt="...">
       <p class="lead">Product Name : {{ product?.name }}</p>
       <p class="lead">Product Price : {{ product?.price|currency}}</p>
       <p class="lead">Product Quantity : {{ product?.quantityAvailable }}</p>

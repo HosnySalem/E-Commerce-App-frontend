@@ -11,9 +11,15 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductsUserComponent implements OnInit {
  products: any;
+ productsShow: any;
  isLogin:any;
+ categories:any;
 constructor(public _ProductService: ProductService,private _CartService:CartService,private _AuthService:AuthService,private _Router:Router) {}
 ngOnInit(): void {
+  this._ProductService.getAllCategories().subscribe({
+    next: (value) => (this.categories = value),
+    error: (error) => console.log(error),
+  });
   this._AuthService.userData.subscribe({
     next:()=> {
     if(this._AuthService.userData.getValue() !== null){
@@ -28,12 +34,20 @@ ngOnInit(): void {
   this._ProductService.getAllProducts().subscribe({
     next: (data) => {
       console.log(data);
-      this.products = data;
+      this.products = this.productsShow = data;
+
     },
     error: (error) => {
       console.log(error);
     },
   });
+}
+filter(catid:any){
+  if(catid == 0)this.productsShow = this.products;
+  else{
+  this.productsShow = this.products.filter((product: any) => product.catId == catid);
+  console.log(this.productsShow,catid);
+  }
 }
 
 addToCart(productId:number,amount:number){

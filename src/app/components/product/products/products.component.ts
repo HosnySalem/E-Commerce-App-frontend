@@ -25,9 +25,7 @@ export class ProductsComponent implements OnInit {
     if(confirm('Are you sure you want to delete this Product?')){
       this.x.deleteProduct(id).subscribe({
         next: (data) => {
-          this.products = this.products.filter(
-            (product: any) => product.id != id
-          );
+          this.products = this.products.filter((product: any) => product.id != id);
         },
         error: () => {},
       });

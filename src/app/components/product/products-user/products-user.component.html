@@ -1,8 +1,16 @@
 <div class="text-center p-5 m-5"><h2>Our Productes</h2></div>
+
+<p><input type="text" ng-model="test"></p>
+<div class="m-auto">
+  <button (click)="filter(0)" class="btn btn-secondary">All</button>
+  <button *ngFor="let cat of categories" (click)="filter(cat.id)"  class="btn btn-secondary">{{cat.name}}</button>
+  <!-- <button (click)="filter(2)" >phones</button> -->
+</div>
   <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col"  *ngFor="let product of products">
+    
+    <div class="col"  *ngFor="let product of productsShow">
         <div class="card">
-        <!-- <img src="{{product.img}}" class="card-img-top" alt="..."> -->
+        <!-- <img [src]="product.img" class="card-img-top" alt="..."> -->
         <div class="card-body">
             <h4 class="card-title">{{product.name}}</h4>
             <h4 class="card-title">{{product.price|currency}}</h4>
