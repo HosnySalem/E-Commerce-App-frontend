@@ -6,10 +6,9 @@ import { Injectable } from '@angular/core';
 })
 export class ProductService {
 
- 
-  
-  //basurl: string = 'http://localhost:3000/products';
-  basurl: string = 'https://localhost:44300/api/Products';
+
+  //basurl: string = 'http://localhost:44300/products';
+  basurl: string = 'https://localhost:7226/api/Products';
   headers = new HttpHeaders({
     Authorization:`Bearer ${localStorage.getItem('userToken')}`
   });
@@ -43,6 +42,6 @@ export class ProductService {
     return this.http.put(`${this.basurl}/${id}`, product,{headers:this.headers});
   }
   getAllCategories() {
-    return this.http.get('https://localhost:44300/api/Categories',{headers:this.headers});
+    return this.http.get('https://localhost:7226/api/Categories',{headers:this.headers});
   }
 }

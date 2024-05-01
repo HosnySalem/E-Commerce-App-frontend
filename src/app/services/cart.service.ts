@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class CartService {
 
 
-  basurl: string = 'https://localhost:44300/api/Cart';
+  basurl: string = 'https://localhost:7226/api/Cart';
   headers = new HttpHeaders({
     'Authorization':`Bearer ${localStorage.getItem('userToken')}`
   });

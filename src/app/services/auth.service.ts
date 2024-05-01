@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http'
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +15,7 @@ export class AuthService {
   //   'Authorization': `Bearer ${localStorage.getItem('userToken')}`
   // });
 
-  constructor(private _HttpClient:HttpClient, private _Router:Router) { 
+  constructor(private _HttpClient:HttpClient, private _Router:Router) {
     if(localStorage.getItem('userToken') !== null){
       this.decodeUserData();
     }
@@ -25,15 +26,15 @@ export class AuthService {
     let decodedToken :any = jwtDecode(encodedToken);
     // console.log(decodedToken);
     this.userData.next(decodedToken);
-    
+
   }
 
   register(userData:object):Observable<any>{
-    return this._HttpClient.post('https://localhost:44300/api/Accounts/Create',userData);
+    return this._HttpClient.post('https://localhost:7226/api/Accounts/Create',userData);
   }
 
   login(userData:object):Observable<any>{
-    return this._HttpClient.post('https://localhost:44300/api/Accounts/Login',userData);
+    return this._HttpClient.post('https://localhost:7226/api/Accounts/Login',userData);
   }
 
   logOut(){
