@@ -1,14 +1,13 @@
-<div class="container mt-5">
-
-  <div *ngIf="apiError" class="alert alert-danger">
-    <ul>
-      <li *ngIf="apiError.ConfirmPassword">{{apiError.ConfirmPassword}}</li>
-      <li *ngIf="apiError.Password">{{apiError.Password}}</li>
-    </ul>  
-  </div>
+<div class="cont">
+  <div class="container">
+    <div *ngIf="apiError" class="alert">
+      <ul>
+        <li *ngIf="apiError.ConfirmPassword">{{ apiError.ConfirmPassword }}</li>
+        <li *ngIf="apiError.Password">{{ apiError.Password }}</li>
+      </ul>
+    </div>
     <form (submit)="handleRegister(registerForm)" [formGroup]="registerForm">
-        
-      <div class="mb-3">
+      <div>
         <label for="exampleInput1" class="form-label">Name</label>
         <input
           type="text"
@@ -19,7 +18,12 @@
           placeholder="Enter Name"
           formControlName="name"
         />
-        <ng-container *ngIf="registerForm.get('name')?.errors && registerForm.get('name')?.touched">
+        <ng-container
+          *ngIf="
+            registerForm.get('name')?.errors &&
+            registerForm.get('name')?.touched
+          "
+        >
           <div
             *ngIf="registerForm.get('name')?.getError('required')"
             id="emailHelp"
@@ -48,7 +52,12 @@
           placeholder="Enter Name"
           formControlName="email"
         />
-        <ng-container *ngIf="registerForm.get('email')?.errors && registerForm.get('email')?.touched">
+        <ng-container
+          *ngIf="
+            registerForm.get('email')?.errors &&
+            registerForm.get('email')?.touched
+          "
+        >
           <div
             *ngIf="registerForm.get('email')?.getError('required')"
             id="emailHelp"
@@ -77,13 +86,18 @@
           placeholder="Enter Address"
           formControlName="address"
         />
-        <ng-container *ngIf="registerForm.get('address')?.errors && registerForm.get('address')?.touched">
+        <ng-container
+          *ngIf="
+            registerForm.get('address')?.errors &&
+            registerForm.get('address')?.touched
+          "
+        >
           <div
             *ngIf="registerForm.get('address')?.getError('required')"
             id="emailHelp"
             class="form-text text-danger"
           >
-          Address is Required
+            Address is Required
           </div>
         </ng-container>
       </div>
@@ -99,7 +113,12 @@
           placeholder="Enter password"
           formControlName="password"
         />
-        <ng-container *ngIf="registerForm.get('password')?.errors && registerForm.get('password')?.touched">
+        <ng-container
+          *ngIf="
+            registerForm.get('password')?.errors &&
+            registerForm.get('password')?.touched
+          "
+        >
           <div
             *ngIf="registerForm.get('password')?.getError('required')"
             id="emailHelp"
@@ -119,7 +138,7 @@
             id="emailHelp"
             class="form-text text-danger"
           >
-          {{apiError.Password}}
+            {{ apiError.Password }}
           </div>
         </ng-container>
       </div>
@@ -134,7 +153,12 @@
           placeholder="Enter password"
           formControlName="confirmPassword"
         />
-        <ng-container *ngIf="registerForm.get('confirmPassword')?.errors && registerForm.get('confirmPassword')?.touched">
+        <ng-container
+          *ngIf="
+            registerForm.get('confirmPassword')?.errors &&
+            registerForm.get('confirmPassword')?.touched
+          "
+        >
           <div
             *ngIf="registerForm.get('confirmPassword')?.getError('required')"
             id="emailHelp"
@@ -150,17 +174,22 @@
             Password Pattern is invalid
           </div>
           <div
-          *ngIf="apiError.ConfirmPassword"
-          id="emailHelp"
-          class="form-text text-danger"
-        >
-        {{apiError.ConfirmPassword}}
-        </div>
+            *ngIf="apiError.ConfirmPassword"
+            id="emailHelp"
+            class="form-text text-danger"
+          >
+            {{ apiError.ConfirmPassword }}
+          </div>
         </ng-container>
       </div>
-      
-  
-      <button [disabled]="registerForm.invalid" type="submit" class="btn btn-outline-primary">Register</button>
+
+      <button
+        [disabled]="registerForm.invalid"
+        type="submit"
+        class="btn btn-outline-primary"
+      >
+        Register
+      </button>
     </form>
   </div>
-  
+</div>

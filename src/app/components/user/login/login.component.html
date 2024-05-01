@@ -1,36 +1,39 @@
-<div class="container mt-5">
-  
-  <div *ngIf="apiError" class="alert alert-danger">{{apiError}}</div>
+<div class="cont">
+  <div class="container">
+    <div *ngIf="apiError" class="alert">{{ apiError }}</div>
     <form (submit)="handleLogin(loginForm)" [formGroup]="loginForm">
-        
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email</label>
-            <input
-              type="text"
-              name="Email"
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-              placeholder="Enter Name"
-              formControlName="email"
-            />
-            <ng-container *ngIf="loginForm.get('email')?.errors && loginForm.get('email')?.touched">
-              <div
-                *ngIf="loginForm.get('email')?.getError('required')"
-                id="emailHelp"
-                class="form-text text-danger"
-              >
-                Email is Required
-              </div>
-              <div
-                *ngIf="loginForm.get('email')?.getError('minlength')"
-                id="emailHelp"
-                class="form-text text-danger"
-              >
-                Email length must be > 3
-              </div>
-            </ng-container>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email</label>
+        <input
+          type="text"
+          name="Email"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          placeholder="Enter Name"
+          formControlName="email"
+        />
+        <ng-container
+          *ngIf="
+            loginForm.get('email')?.errors && loginForm.get('email')?.touched
+          "
+        >
+          <div
+            *ngIf="loginForm.get('email')?.getError('required')"
+            id="emailHelp"
+            class="form-text text-danger"
+          >
+            Email is Required
           </div>
+          <div
+            *ngIf="loginForm.get('email')?.getError('minlength')"
+            id="emailHelp"
+            class="form-text text-danger"
+          >
+            Email length must be > 3
+          </div>
+        </ng-container>
+      </div>
 
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Password</label>
@@ -43,7 +46,12 @@
           placeholder="Enter password"
           formControlName="password"
         />
-        <ng-container *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched">
+        <ng-container
+          *ngIf="
+            loginForm.get('password')?.errors &&
+            loginForm.get('password')?.touched
+          "
+        >
           <div
             *ngIf="loginForm.get('password')?.getError('required')"
             id="emailHelp"
@@ -60,9 +68,14 @@
           </div>
         </ng-container>
       </div>
-      
-  
-      <button [disabled]="loginForm.invalid" type="submit" class="btn btn-outline-primary">Login</button>
+
+      <button
+        [disabled]="loginForm.invalid"
+        type="submit"
+        class="btn btn-outline-primary"
+      >
+        Login
+      </button>
     </form>
   </div>
-  
+</div>
