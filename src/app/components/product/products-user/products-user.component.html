@@ -1,55 +1,14 @@
 <div class="text-center p-5 m-5"><h2>Our Productes</h2></div>
 
-<!-- <div id="carouselExample" class="carousel slide">
-  <div class="carousel-inner">
-    <div class="carousel-item active" *ngFor="let product of products">
-      <img [src]="product.img" class="d-block w-50" [alt]="product.name">
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div> -->
 
-<!-- <div id="carouselExampleCaptions" class="carousel slide">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  </div>
-  <div class="carousel-inner">
-    <div class="carousel-item active"  *ngFor="let product of products">
-      <img [src]="product.img" class="d-block w-100" [alt]="product.name">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>{{product.name}}</h5>
-        <p>{{product.description}}</p>
-      </div>
-    </div>
-    </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
-
-<p><input type="text" ng-model="test"></p> -->
+<p><input [(ngModel)]="search" type="text" class="form-control w-75 mx-auto my-4 "></p> 
 <div class="m-auto">
   <button (click)="filter(0)" class="btn btn-secondary">All</button>
   <button *ngFor="let cat of categories" (click)="filter(cat.id)"  class="btn btn-secondary">{{cat.name}}</button>
-  <!-- <button (click)="filter(2)" >phones</button> -->
 </div>
   <div class="row row-cols-1 row-cols-md-3 g-4">
     
-    <div class="col"  *ngFor="let product of productsShow">
+    <div class="col"  *ngFor="let product of productsShow|search:search">
         <div class="card">
         <img [src]="product.img" class="card-img-top" [alt]="product.name">
         <div class="card-body">

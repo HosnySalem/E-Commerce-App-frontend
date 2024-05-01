@@ -14,6 +14,7 @@ export class ProductsUserComponent implements OnInit {
  productsShow: any;
  isLogin:any;
  categories:any;
+ search:string ='';
 constructor(public _ProductService: ProductService,private _CartService:CartService,private _AuthService:AuthService,private _Router:Router) {}
 ngOnInit(): void {
   this._ProductService.getAllCategories().subscribe({
