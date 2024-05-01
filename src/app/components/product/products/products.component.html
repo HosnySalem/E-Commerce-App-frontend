@@ -18,7 +18,7 @@
         <tbody>
           <tr *ngFor="let product of products">
             <th scope="row">{{ product.id }}</th>
-            <!-- <td class="w-25"><img class="w-50" [src]="product.img" alt=""></td> -->
+            <td class="w-25"><img class="w-50" [src]="product.img" alt=""></td>
             <td>{{ product.name }}</td>
             <td>{{ product.price|currency}}</td>
             <td>{{ product.quantityAvailable }}</td>
